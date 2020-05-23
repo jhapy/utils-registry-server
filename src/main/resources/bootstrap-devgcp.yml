@@ -1,0 +1,49 @@
+spring:
+  cloud:
+    config:
+      server.git:
+        uri: git@bitbucket.org:dabateam/jhapy-config-files.git
+        default-label: master
+        ignoreLocalSshSettings: true
+        clone-on-start: true
+        privateKey: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEpAIBAAKCAQEAyB7jd1/U9OpHz2VufP9zvtOuczH9T+O5dPMZbv1r6dG0EY9g
+          ux6pzHnUSIhmlI8O13NpYU7OUT82PrNoyomixRfFBk8Yxyy4RH5oQ5t4bGRo6rnf
+          i52Nzb6k5U7PJtJqCUsVvLweXoacFHYOmMuLcXoqEH+hhSDsmoCmwa52al17fZx3
+          43Afz/7alyAXPi3bmlfGaodsVl48d2PiIn8DQNhoM5DUipM3zT/mei+eG3EQnBFf
+          xh6wmq4Fv/7v1Zdc6OVLZlGgTGYePm8L0ElKon5lxzuutJk1+YIfdGDmryWOVb1k
+          vlBliVaN2O+eg6K/R0WTU/OgPUZpLPWuQnccjQIDAQABAoIBAQCr3oNi+aXuter4
+          fteWeNoSUMCpZIx2eVDE1SfJv9JXXOe2kRn1es8/sn4T0TmwavDHLvKZRNJCyvQu
+          g20DTZPCi7iFw5a3MHwNLzcioTqadN36gaowwR6RTiNWYQneAKZa1uaTUkkOy7Lu
+          i7nblixrSA0qYEL7EBzEUKtm+gvvKlcvtfMNfnFqndNP1IIv0YEQWRK2lI/9oO51
+          4ARXcIiu9VSXDufTBxGoiNt576/zCMl3rZMZIECL4h6gYf2ICspy7vYOuibjDLjC
+          bAaEuf3hwpoDYld1IfHVIq/zqLmaGpPDID0cT7zsAfOVfNXBNpzpRG/YWqFfqeIG
+          uijKGCzNAoGBAOneKYlYWEBsb3j8CzvRjGoD1ibGaAxdYIWUKf3vOc2dOx7Ol5X3
+          zk0st2qMGs6JBHjNRqwI8AP/07B714OhRsZa6atsUVHjWmyPKTUCouvW7obDenbc
+          uZOqpcvsT549DmeXzzjQIaOOftmSbkRSPp16OI2mmQDl6QDll25z32rrAoGBANsP
+          JSAc76ljC4bk58rtHc7RuphXunbRWT5dE7P7W+Cqd/YEo4YEnPhrVYeXvZNH/iY8
+          LqyhoucKZFIwdjCwoH/JhJ6CRp2JLlpUaIGfzjE49tKQ6wt7UZrhXhV0esLQOt1z
+          x5w2GKEY0PvTtGtYIuLplc+r/MLDDtLUHlD2Q0hnAoGAe3r0vXLq7eETHnMdz1C9
+          7b/m04RQra6j5wOrBEvKXlkVPRfhi6pSwAbLNTOSd9h6hvoDxZPWfpYWBInu6a4+
+          uz6HQB6p9S2wsb8JB9dDhHhwarFNuPKj/WbNsZUtGKSuNV4/aITkLgJv0ZryI5q1
+          Otqsf4YmJQY/d1zCDuyZW08CgYB9ZfIOrAHVqUkT8z1tQMdreUujobSwB69ar9Vz
+          llRGC8+YGZeyRDnHS0ou0IJJKVEnehQN5olmUOCU3AEMZk+6VxV/13us+rZ6Jw+c
+          BGr4am+AokyqyfExBAnjpkYP9zt7QafmmGEI9zfKsKn7OPzfgG+t7fpHU3nM3nhs
+          SEzDyQKBgQC1StPhCukSjuYmI6X/LyTimYhQAF9maaGyu64L7rYsuLf5GUutX9/u
+          mSHVZ+x3LHDcYqFmuG8EXFHFnRz/L4b7U42QLZJSfMwj0cBtpRWTN3W1vmTi6Dox
+          h0GK4wMaIlC4lXxDnyGJISLzLFsP7Lt0Q6AFygLaQoAipnCiLxobZA==
+          -----END RSA PRIVATE KEY-----
+
+javamelody:
+  init-parameters:
+    storage-directory: /javamelody
+
+management:
+  endpoint:
+    logfile:
+      external-file: /logs/utils-config-server-${SERVER_NAME}.log
+
+logging:
+  file:
+    name: /logs/utils-config-server-${SERVER_NAME}.log

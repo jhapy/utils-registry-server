@@ -1,0 +1,51 @@
+server.port: 8888
+
+spring:
+  application.name: utils-config-server
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: false
+  security:
+    user:
+      name: user
+      password: none
+      roles: MONITORING
+  boot:
+    admin:
+      client:
+        url: http://utils-admin-server:8002
+        username: user
+        password: none
+        instance:
+          metadata:
+            user.name: user
+            user.password: none
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+management:
+  server:
+    port: 8186
+    ssl.enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  info:
+    git:
+      mode: full
+
+javamelody:
+  enabled: true
+  management-endpoint-monitoring-enabled: true
+
+info.tags.environment: development
