@@ -55,3 +55,10 @@ jobs:
 
           docker tag image $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+    - name: Slack Success
+      if: always()
+      uses: kpritam/slack-job-status-action@v1
+      with:
+        job-status: ${{ job.status }}
+        slack-bot-token: ${{ secrets.slack_bot_token }}
+        channel: framework-builds
