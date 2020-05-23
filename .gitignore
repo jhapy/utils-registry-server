@@ -2,6 +2,8 @@
 log/
 target/
 
+keys/
+
 *.iml
 outdated-dependencies.txt
 cloudbuild.yaml
