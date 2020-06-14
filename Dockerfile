@@ -8,9 +8,9 @@ RUN yum update -y && \
 ENV JAVA_OPTS=""
 ENV APP_OPTS=""
 
-ADD target/utils-config-server.jar /app/
+ADD target/utils-registry-server.jar /app/
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/utils-config-server.jar $APP_OPTS"]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/utils-registry-server.jar $APP_OPTS"]
 
 HEALTHCHECK --interval=30s --timeout=30s --retries=10 CMD curl -f http://localhost:8186/actuator/health || exit 1
 

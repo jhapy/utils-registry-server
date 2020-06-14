@@ -6,7 +6,7 @@ on:
     types: [shared-commons-build]
 
 env:
-  IMAGE_NAME: utils-config-server
+  IMAGE_NAME: utils-registry-server
 
 jobs:
   build:
