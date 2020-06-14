@@ -21,8 +21,8 @@
   </springProfile>
 
   <springProfile name="local">
+    <logger level="INFO" name="org.springframework.security"/>
     <logger level="DEBUG" name="org.jhapy"/>
-
     <root level="INFO">
       <appender-ref ref="CONSOLE"/>
     </root>

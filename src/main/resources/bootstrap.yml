@@ -1,31 +1,75 @@
 server.port: 8888
 
 spring:
-  application.name: utils-config-server
+  application.name: utils-registry-server
+  profiles:
+    active: dev
+    include: composite
   cloud:
     service-registry:
       auto-registration:
-        enabled: false
+        enabled: true
+    config:
+      server:
+        bootstrap: true
+        composite:
+          - type: native
+            search-locations: file:./central-config
+        prefix: /config
+      fail-fast: true
+      # name of the config server's property source (file.yml) that we want to use
+      name: utils-registry-server
+      profile: local # profile(s) of the property source
+      label: master # toggle to switch to a different version of the configuration as stored in git
+      # it can be set to any label, branch or commit of the configuration source Git repository
   security:
     user:
-      name: user
-      password: none
-      roles: MONITORING
-  boot:
-    admin:
+      name: admin
+      password: admin
+      roles: ADMIN
+    oauth2:
       client:
-        url: http://utils-admin-server:8002
-        username: user
-        password: none
-        instance:
-          metadata:
-            user.name: user
-            user.password: none
+        registration:
+          oidc:
+            client-id: jhapy-registry
+            client-secret: jhapy-registry
+        provider:
+          oidc:
+            issuer-uri: ${jhapy.keycloak.issuer-uri}
 
 eureka:
+  instance:
+    appname: ${spring.application.name}
+    instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+    status-page-url: http://admin:${spring.security.user.password:admin}@localhost:${management.server.port}${management.endpoints.web.base-path}/info
+    health-check-url: http://admin:${spring.security.user.password:admin}@localhost:${management.server.port}${management.endpoints.web.base-path}/health
+    metadata-map:
+      zone: primary # This is needed for the load balancer
+      profile: ${spring.profiles.active}
+      version: #project.version#
+      git-version: ${git.commit.id.describe:}
+      git-commit: ${git.commit.id.abbrev:}
+      git-branch: ${git.branch:}
+      management.url: http://admin:${spring.security.user.password:admin}@localhost:${management.server.port}/management
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    enabled: true
+    healthcheck:
+      enabled: true
+    fetch-registry: false
+    register-with-eureka: true
+    instance-info-replication-interval-seconds: 10
+    registry-fetch-interval-seconds: 10
+    service-url:
+      defaultZone: http://admin:${spring.security.user.password:admin}@localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
+    peer-node-read-timeout-ms: 1000
+  dashboard:
+    path: /registry
+  datacenter: JHapy-DataCenter
+  environment: JHapy-Environment
 
 management:
   server:
@@ -33,19 +77,51 @@ management:
     ssl.enabled: false
   endpoints:
     web:
+      base-path: /management
       exposure:
-        include: "*"
+        include: ['configprops', 'env', 'health', 'info', 'jhametrics', 'logfile', 'loggers', 'prometheus', 'threaddump', 'metrics']
   endpoint:
     health:
-      show-details: always
-    shutdown:
+      show-details: when_authorized
+      roles: 'ROLE_ADMIN'
+    jhametrics:
       enabled: true
   info:
     git:
       mode: full
-
-javamelody:
-  enabled: true
-  management-endpoint-monitoring-enabled: true
+  health:
+    mail:
+      enabled: false # When using the MailService, configure an SMTP server and set this to true
+  metrics:
+    export:
+      # Prometheus is the default metrics backend
+      prometheus:
+        enabled: true
+        step: 60
+    enable:
+      http: true
+      jvm: true
+      logback: true
+      process: true
+      system: true
+    distribution:
+      percentiles-histogram:
+        all: true
+      percentiles:
+        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+    tags:
+      application: ${spring.application.name}
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
 
 info.tags.environment: development
+
+jhapy:
+  security:
+    oauth2:
+      audience:
+        - account
+        - api://default

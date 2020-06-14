@@ -1,12 +1,3 @@
-server.port: 8888
-
-spring:
-  application.name: utils-config-server
-  cloud:
-    service-registry:
-      auto-registration:
-        enabled: false
-
 app:
   firebase:
     serviceAccountFile: ./data/firebase-service-account.json
@@ -15,11 +6,11 @@ app:
 management:
   endpoint:
     logfile:
-      external-file: ./logs/utils-config-server.log
+      external-file: ./logs/utils-registry-server.log
 
 logging:
   file:
-    name: ./logs/utils-config-server.log
+    name: ./logs/utils-registry-server.log
 
 javamelody:
   init-parameters:
