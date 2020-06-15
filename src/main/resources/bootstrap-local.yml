@@ -12,8 +12,4 @@ logging:
   file:
     name: ./logs/utils-registry-server.log
 
-javamelody:
-  init-parameters:
-    storage-directory: ./javamelody
-
 info.tags.environment: local

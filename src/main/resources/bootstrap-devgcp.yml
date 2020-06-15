@@ -35,10 +35,6 @@ spring:
           h0GK4wMaIlC4lXxDnyGJISLzLFsP7Lt0Q6AFygLaQoAipnCiLxobZA==
           -----END RSA PRIVATE KEY-----
 
-javamelody:
-  init-parameters:
-    storage-directory: /javamelody
-
 management:
   endpoint:
     logfile:
