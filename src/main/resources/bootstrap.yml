@@ -13,8 +13,37 @@ spring:
       server:
         bootstrap: true
         composite:
-          - type: native
-            search-locations: file:./central-config
+          - type: git
+            uri: git@bitbucket.org:javateammaroc/config-files-server.git
+            ignoreLocalSshSettings: true
+            privateKey: |
+              -----BEGIN RSA PRIVATE KEY-----
+              MIIEpAIBAAKCAQEAlMsluHwpu64AmXEQjEP7rTc3PLDUKeCfPNyCQxYqscxxQ/rv
+              9NRv3fL9Z20yO9lGhgaAorLeEWZrKLDUU8vLd6lOWNDejMo453c7yHgKSbDqE2a8
+              RrBY5hVwbK6APnrOUlpR/UDM+egnarvSYCOIx53mYu52DP3cMT7g22e/xKVpGwTE
+              XLCfoAqOAkdRP+pzcSURgGyA48H63EI2MoA7uUXeC1abkj7bjcnob15GT3g+Uncr
+              uGsy30Q5oIlkVdr5FgmLY5xJbWXetx0DFnuLhnvqlQO9SDHwyvVJfpBqzxh3YAMX
+              1R3D5Mr3dHdLK5MKAgPqx/SpNYPFAt/NyQTFWwIDAQABAoIBACDt9KMnl3TZxXgv
+              9aGVShXDqo3b9JhwBc3KX2nJdhlzTX3mA0UD3t4X8Mz69asZIup2dfGL9GmVaRHQ
+              UK1a5OTOq3AsiZRPDNjtImXzaxNz+9nfWruqO4JwLDlhRTCOrSq8oniR5stH/bE5
+              cA2mz5ad82bhr26goCKl782e4Gn8eyn1s6yG+xBXOoq7UlKiGD6YjKxoYaxQ/RYx
+              z9EsPbQAn6b7zZjmyuLAbXTNOubVFdZ0dkBxmb3z8OkvfHejZjraKbmpsnMXYSJn
+              VSDNhpvW8VRjNLJoZgv1iRB1T2F475BqDWfETHqmRPqLLMjRQqkTyV5xm9XuROAO
+              +TvJ4AECgYEAxUt2wSvC/uUI+9iHwezMK2BNA8uIh+PVmvy1U2cBr7PhqU8dslOr
+              I7LXI8OfhOrNWoZjdsTOUOCIqYuvi8RdS/fvaDghfTkCZmfmcE4DmxBLS4qOK9Nv
+              yyFZwpruMVt1toVbIsc1Deq5l6M4k2SZnUHmW+oxcx02VaN09VU7y1sCgYEAwREy
+              1mP/JOhuz40xR6FENtOwdYtJrBpH/Xg1qGz1UWryDMgp3OB1bxvXy39cM43mHMfM
+              4aBOVe4clsTIPLJAkr5cI6rIqzhPWDmZ2NEtHMZvpcKB1WqkoLbRPILMKhUGSGJ2
+              23bu/XGeKOARi4KqtrMC09/4Hzpvsp1WWS4eDgECgYAWdTSbYIPdx+xx3n/1jyLe
+              fSPHHs/3x/N0pPdu+vayLWOuhhb3SZbdhWn/5DCwTJn7h/iieFyT0Ds+MWxWGJAW
+              Ka7SyjDltCuVxJXyiq7WY9BuVONCEdtT4AP7pu8eJy8LC7sIBmz/nIxrumSiQn1J
+              7UpvhAUE+XpJ3UVe98jKqQKBgQCwzwFRmY4lzL7+UH2a7bM8yqzFWOQFOqRHGnl5
+              Xx9iiqBU2FKONvkU4djEQkS76e2c2dVlo5tZ0pBX+qqt+0hrmu1itJrFQvJXB5k/
+              GIFJ4uiIUxL30YwmqoX/9oDm4Q456AKVhdvkOtLu+BTZQLb6TgH+6xOd9bQpTTGw
+              xi08AQKBgQCwrTh9YBDdOfqytPkZ0V6INZBDuxTr58CtjkeqKugY3/D1h5uU9ivH
+              xm9iv/V4Z0oP8NuCncMDRof2N3wAIUC2Pr/wPgh7RmQOJuBmYfSzd1qXFwlscSyx
+              VgWTZUTZbUgScBNSWnYOGPlVhFl/SauFNxV6p/hS1KRo8k3LQPTAGA==
+              -----END RSA PRIVATE KEY-----
         prefix: /config
       fail-fast: true
       # name of the config server's property source (file.yml) that we want to use
