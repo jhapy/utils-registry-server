@@ -134,6 +134,12 @@ public class DockerEurekaClientConfiguration implements
     this.setupJmxPort(instance, jmxPort);
 
     EurekaInstanceConfigBean result = null;
+    SubnetUtils subnet = null;
+    if (env.getProperty("eureka.instance.network") != null) {
+      String specifiedNetwork = env.getProperty("eureka.instance.network");
+      subnet = new SubnetUtils(specifiedNetwork);
+    }
+
     int nbLoop = 1;
     while (result == null & nbLoop <= 10) {
       logger().info(loggerPrefix + "Loop " + nbLoop++);
@@ -151,33 +157,40 @@ public class DockerEurekaClientConfiguration implements
                   interfaceAddress.getAddress(),
                   interfaceAddress.getNetworkPrefixLength()
               );
-              SubnetUtils subnet = new SubnetUtils(
-                  interfaceAddress.getAddress().getHostAddress() +
-                      "/" + interfaceAddress.getNetworkPrefixLength()
-              );
-              logger().info(loggerPrefix + servers.size() + " servers to check");
-              for (String server : servers) {
 
-                URL serverUrl = new URL(server);
-                try {
-                  InetAddress eurekaServerAddress = InetAddress.getByName(serverUrl.getHost());
-                  boolean matches = subnet.getInfo()
-                      .isInRange(eurekaServerAddress.getHostAddress());
-                  logger().info(loggerPrefix + "Testing server {} ({}): {}", server,
-                      eurekaServerAddress.getHostAddress(), matches);
-                  if (matches) {
-                    logger().info(loggerPrefix +
-                            "Found Interface {}: {} ({})",
-                        networkInterface.getName(),
-                        interfaceAddress.getAddress().getHostName(),
-                        interfaceAddress.getAddress().getHostAddress()
-                    );
-                    result = createEurekaInstanceConfigBean(inetUtils, instance,
-                        isManagementSecuredPortEnabled, managementContextPath, interfaceAddress);
-                    break external_loop;
+              if (subnet != null) {
+                if (subnet.getInfo().isInRange(interfaceAddress.getAddress().getHostAddress())) {
+                  result = createEurekaInstanceConfigBean(inetUtils, instance,
+                      isManagementSecuredPortEnabled, managementContextPath, interfaceAddress);
+                }
+              } else {
+                SubnetUtils addressSubnet = new SubnetUtils(
+                    interfaceAddress.getAddress().getHostAddress() +
+                        "/" + interfaceAddress.getNetworkPrefixLength()
+                );
+                logger().info(loggerPrefix + servers.size() + " servers to check");
+                for (String server : servers) {
+                  URL serverUrl = new URL(server);
+                  try {
+                    InetAddress eurekaServerAddress = InetAddress.getByName(serverUrl.getHost());
+                    boolean matches = addressSubnet.getInfo()
+                        .isInRange(eurekaServerAddress.getHostAddress());
+                    logger().info(loggerPrefix + "Testing server {} ({}): {}", server,
+                        eurekaServerAddress.getHostAddress(), matches);
+                    if (matches) {
+                      logger().info(loggerPrefix +
+                              "Found Interface {}: {} ({})",
+                          networkInterface.getName(),
+                          interfaceAddress.getAddress().getHostName(),
+                          interfaceAddress.getAddress().getHostAddress()
+                      );
+                      result = createEurekaInstanceConfigBean(inetUtils, instance,
+                          isManagementSecuredPortEnabled, managementContextPath, interfaceAddress);
+                      break external_loop;
+                    }
+                  } catch (UnknownHostException e) {
+                    logger().warn(loggerPrefix + "Host not found on interface");
                   }
-                } catch (UnknownHostException e) {
-                  logger().warn(loggerPrefix + "Host not found on interface");
                 }
               }
             } else {
