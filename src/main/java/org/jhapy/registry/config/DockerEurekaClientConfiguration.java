@@ -137,6 +137,7 @@ public class DockerEurekaClientConfiguration implements
     SubnetUtils subnet = null;
     if (env.getProperty("eureka.instance.network") != null) {
       String specifiedNetwork = env.getProperty("eureka.instance.network");
+      logger().info(loggerPrefix + "Network is specified : " + specifiedNetwork);
       subnet = new SubnetUtils(specifiedNetwork);
     }
 
@@ -160,8 +161,10 @@ public class DockerEurekaClientConfiguration implements
 
               if (subnet != null) {
                 if (subnet.getInfo().isInRange(interfaceAddress.getAddress().getHostAddress())) {
+                  logger().info(loggerPrefix + "Interface match with specified network");
                   result = createEurekaInstanceConfigBean(inetUtils, instance,
                       isManagementSecuredPortEnabled, managementContextPath, interfaceAddress);
+                  break external_loop;
                 }
               } else {
                 SubnetUtils addressSubnet = new SubnetUtils(
@@ -228,6 +231,8 @@ public class DockerEurekaClientConfiguration implements
   private EurekaInstanceConfigBean createEurekaInstanceConfigBean(InetUtils inetUtils,
       EurekaInstanceConfigBean defaultResult, Boolean isManagementSecuredPortEnabled,
       String managementContextPath, InterfaceAddress interfaceAddress) {
+    String loggerPrefix = getLoggerPrefix("createEurekaInstanceConfigBean");
+
     EurekaInstanceConfigBean result;
     result = new EurekaInstanceConfigBean(inetUtils);
     result.setPreferIpAddress(defaultResult.isPreferIpAddress());
@@ -253,6 +258,8 @@ public class DockerEurekaClientConfiguration implements
     managementUrl += ":" + defaultResult.getMetadataMap().get("management.port");
 
     managementUrl += managementContextPath;
+    logger().info(loggerPrefix + "Management url = " + managementUrl);
+
     defaultResult.getMetadataMap().put("management.url", managementUrl);
     result.setMetadataMap(defaultResult.getMetadataMap());
     result.setInstanceId(result.getInstanceId());
