@@ -3,7 +3,6 @@ server.port: 8888
 spring:
   application.name: utils-registry-server
   profiles:
-    active: dev
     include: composite
   cloud:
     service-registry:
