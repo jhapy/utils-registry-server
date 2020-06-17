@@ -135,7 +135,7 @@ public class DockerEurekaClientConfiguration implements
 
     EurekaInstanceConfigBean result = null;
     int nbLoop = 1;
-    while (result == null) {
+    while (result == null & nbLoop <= 10) {
       logger().info(loggerPrefix + "Loop " + nbLoop++);
       try {
         List<String> servers = eurekaClientConfigBean(env).getEurekaServerServiceUrls(null);
@@ -197,6 +197,10 @@ public class DockerEurekaClientConfiguration implements
         Thread.sleep(1000);
       } catch (InterruptedException e) {
       }
+    }
+    if (result == null) {
+      logger().error(loggerPrefix + "Unable to getEurekaInstance, exiting");
+      System.exit(-1);
     }
     return result;
   }
