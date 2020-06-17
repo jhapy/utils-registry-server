@@ -23,6 +23,7 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -154,22 +155,29 @@ public class DockerEurekaClientConfiguration implements
                   interfaceAddress.getAddress().getHostAddress() +
                       "/" + interfaceAddress.getNetworkPrefixLength()
               );
+              logger().info(loggerPrefix + servers.size() + " servers to check");
               for (String server : servers) {
+
                 URL serverUrl = new URL(server);
-                InetAddress eurekaServerAddress = InetAddress.getByName(serverUrl.getHost());
-                boolean matches = subnet.getInfo().isInRange(eurekaServerAddress.getHostAddress());
-                logger().info(loggerPrefix + "Testing server {} ({}): {}", server,
-                    eurekaServerAddress.getHostAddress(), matches);
-                if (matches) {
-                  logger().info(loggerPrefix +
-                          "Found Interface {}: {} ({})",
-                      networkInterface.getName(),
-                      interfaceAddress.getAddress().getHostName(),
-                      interfaceAddress.getAddress().getHostAddress()
-                  );
-                  result = createEurekaInstanceConfigBean(inetUtils, instance,
-                      isManagementSecuredPortEnabled, managementContextPath, interfaceAddress);
-                  break external_loop;
+                try {
+                  InetAddress eurekaServerAddress = InetAddress.getByName(serverUrl.getHost());
+                  boolean matches = subnet.getInfo()
+                      .isInRange(eurekaServerAddress.getHostAddress());
+                  logger().info(loggerPrefix + "Testing server {} ({}): {}", server,
+                      eurekaServerAddress.getHostAddress(), matches);
+                  if (matches) {
+                    logger().info(loggerPrefix +
+                            "Found Interface {}: {} ({})",
+                        networkInterface.getName(),
+                        interfaceAddress.getAddress().getHostName(),
+                        interfaceAddress.getAddress().getHostAddress()
+                    );
+                    result = createEurekaInstanceConfigBean(inetUtils, instance,
+                        isManagementSecuredPortEnabled, managementContextPath, interfaceAddress);
+                    break external_loop;
+                  }
+                } catch (UnknownHostException e) {
+                  logger().warn(loggerPrefix + "Host not found on interface");
                 }
               }
             } else {
