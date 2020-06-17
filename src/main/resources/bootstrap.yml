@@ -27,8 +27,8 @@ eureka:
     instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
-    status-page-url: http://admin:${spring.security.user.password:admin}@localhost:${management.server.port}${management.endpoints.web.base-path}/info
-    health-check-url: http://admin:${spring.security.user.password:admin}@localhost:${management.server.port}${management.endpoints.web.base-path}/health
+    status-page-url-path: /info
+    health-check-url-path: /health
     metadata-map:
       zone: primary # This is needed for the load balancer
       profile: ${spring.profiles.active}
@@ -36,7 +36,6 @@ eureka:
       git-version: ${git.commit.id.describe:}
       git-commit: ${git.commit.id.abbrev:}
       git-branch: ${git.branch:}
-      management.url: http://admin:${spring.security.user.password:admin}@localhost:${management.server.port}/management
   client:
     enabled: true
     healthcheck:
