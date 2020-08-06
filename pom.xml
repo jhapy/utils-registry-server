@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.0.RELEASE</version>
+    <version>2.3.2.RELEASE</version>
     <relativePath/>
   </parent>
 
@@ -35,8 +35,8 @@
     <sonar-maven-plugin.version>3.6.1.1688</sonar-maven-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
-    <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
-    <spring-data.version>Moore-SR6</spring-data.version>
+    <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
+    <spring-data.version>Neumann-SR2</spring-data.version>
 
     <logstash-gelf.version>1.14.0</logstash-gelf.version>
   </properties>
