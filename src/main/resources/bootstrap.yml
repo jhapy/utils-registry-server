@@ -54,6 +54,7 @@ eureka:
   datacenter: JHapy-DataCenter
   environment: JHapy-Environment
 
+
 management:
   server:
     port: 8186
