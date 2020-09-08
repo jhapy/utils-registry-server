@@ -38,7 +38,7 @@
     <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
     <spring-data.version>Neumann-SR3</spring-data.version>
 
-    <logstash-gelf.version>1.14.0</logstash-gelf.version>
+    <logstash-gelf.version>1.14.1</logstash-gelf.version>
   </properties>
 
   <dependencies>
