@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.jhapy.commons.config.AppProperties;
+import org.jhapy.commons.utils.DefaultProfileUtil;
+import org.jhapy.commons.utils.SpringProfileConstants;
 import org.jhapy.registry.config.ConfigServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,13 +37,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.jhapy.commons.utils.DefaultProfileUtil;
-import org.jhapy.commons.utils.SpringProfileConstants;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableConfigServer

@@ -26,9 +26,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.cloud.config.server")
 public class ConfigServerConfig {
 
-    private List<Map<String, Object>> composite = new ArrayList<>();
+  private final List<Map<String, Object>> composite = new ArrayList<>();
 
-    public List<Map<String, Object>> getComposite() {
-        return composite;
-    }
+  public List<Map<String, Object>> getComposite() {
+    return composite;
+  }
 }

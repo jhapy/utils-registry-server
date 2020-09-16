@@ -42,7 +42,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class ActuatorSecurity {
 
-  private Environment env;
+  private final Environment env;
 
   public ActuatorSecurity(Environment env) {
     this.env = env;
@@ -90,8 +90,9 @@ public class ActuatorSecurity {
     protected void configure(HttpSecurity http) throws Exception {
       http.antMatcher("/actuator/**")
           .authorizeRequests(authorize ->
-              authorize.requestMatchers(EndpointRequest.to(HealthEndpoint.class),EndpointRequest.to(
-                  HystrixStreamEndpoint.class)).permitAll()
+              authorize
+                  .requestMatchers(EndpointRequest.to(HealthEndpoint.class), EndpointRequest.to(
+                      HystrixStreamEndpoint.class)).permitAll()
                   .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("MONITORING")
                   .anyRequest().permitAll()
           ).httpBasic(Customizer.withDefaults());

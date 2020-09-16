@@ -25,7 +25,6 @@ import org.jhapy.commons.security.oauth2.JwtGrantedAuthorityConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -65,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // @formatter:off
     http
         .cors()
-    .and()
+        .and()
         .csrf()
         .disable()
         .exceptionHandling()
@@ -74,7 +73,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .headers()
         .contentSecurityPolicy(
-            "default-src 'self' "+appProperties.getKeycloakAdmin().getServerUrl()+"; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:")
+            "default-src 'self' " + appProperties.getKeycloakAdmin().getServerUrl()
+                + "; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:")
         .and()
         .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
         .and()
