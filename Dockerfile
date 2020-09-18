@@ -3,7 +3,7 @@ FROM openjdk:14-jdk-slim-buster
 MAINTAINER jHapy Lead Dev <jhapy@jhapy.org>
 
 RUN apt-get update -y && \
-    apt-get install -y wget curl && \
+    apt-get install -y wget curl md5sum && \
     apt-get autoclean
 
 ENV JAVA_OPTS=""
@@ -16,7 +16,7 @@ RUN $JAVA_HOME/bin/keytool -importcert -file /tmp/ilemtest.crt -alias ilemtest -
 
 ADD target/utils-registry-server.jar /app/
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/utils-registry-server.jar $APP_OPTS"]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dpinpoint.agentId=$(date | md5sum | head -c 24) -jar /app/utils-registry-server.jar $APP_OPTS"]
 
 HEALTHCHECK --interval=30s --timeout=30s --retries=10 CMD curl -f http://localhost:8186/management/health || exit 1
 
