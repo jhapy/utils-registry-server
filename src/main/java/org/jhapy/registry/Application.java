@@ -18,10 +18,12 @@
 
 package org.jhapy.registry;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
+import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.jhapy.commons.config.AppProperties;
 import org.jhapy.commons.utils.DefaultProfileUtil;
@@ -30,6 +32,7 @@ import org.jhapy.registry.config.ConfigServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -51,8 +54,11 @@ public class Application implements InitializingBean {
 
   private final Environment env;
 
-  public Application(Environment env) {
+  private final AppProperties appProperties;
+
+  public Application(Environment env, AppProperties appProperties) {
     this.env = env;
+    this.appProperties = appProperties;
   }
 
   public static void main(String[] args) {
@@ -110,5 +116,17 @@ public class Application implements InitializingBean {
       logger.error("You have misconfigured your application! It should not run " +
           "with both the 'dev' and 'prod' profiles at the same time.");
     }
+  }
+
+  @PostConstruct
+  void postConstruct() {
+    File trustStoreFilePath = new File(
+        appProperties.getSecurity().getTrustStore().getTrustStorePath());
+    String tsp = trustStoreFilePath.getAbsolutePath();
+    System.setProperty("javax.net.ssl.trustStore", tsp);
+    System.setProperty("javax.net.ssl.trustStorePassword",
+        appProperties.getSecurity().getTrustStore().getTrustStorePassword());
+    System.setProperty("javax.net.ssl.keyStoreType",
+        appProperties.getSecurity().getTrustStore().getDefaultType());
   }
 }
