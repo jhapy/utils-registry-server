@@ -120,13 +120,15 @@ public class Application implements InitializingBean {
 
   @PostConstruct
   void postConstruct() {
-    File trustStoreFilePath = new File(
-        appProperties.getSecurity().getTrustStore().getTrustStorePath());
-    String tsp = trustStoreFilePath.getAbsolutePath();
-    System.setProperty("javax.net.ssl.trustStore", tsp);
-    System.setProperty("javax.net.ssl.trustStorePassword",
-        appProperties.getSecurity().getTrustStore().getTrustStorePassword());
-    System.setProperty("javax.net.ssl.keyStoreType",
-        appProperties.getSecurity().getTrustStore().getDefaultType());
+    if (StringUtils.isNotBlank(appProperties.getSecurity().getTrustStore().getTrustStorePath())) {
+      File trustStoreFilePath = new File(
+          appProperties.getSecurity().getTrustStore().getTrustStorePath());
+      String tsp = trustStoreFilePath.getAbsolutePath();
+      System.setProperty("javax.net.ssl.trustStore", tsp);
+      System.setProperty("javax.net.ssl.trustStorePassword",
+          appProperties.getSecurity().getTrustStore().getTrustStorePassword());
+      System.setProperty("javax.net.ssl.keyStoreType",
+          appProperties.getSecurity().getTrustStore().getDefaultType());
+    }
   }
 }
