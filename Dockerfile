@@ -1,18 +1,7 @@
-FROM openjdk:15-jdk-slim-buster
-
-MAINTAINER jHapy Lead Dev <jhapy@jhapy.org>
-
-RUN apt-get update -y && \
-    apt-get install -y wget curl && \
-    apt-get autoclean
+FROM jhapy/base-image-slim
 
 ENV JAVA_OPTS=""
 ENV APP_OPTS=""
-
-ADD devgcp.crt /tmp/
-RUN $JAVA_HOME/bin/keytool -importcert -file /tmp/devgcp.crt -alias devgcp -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt
-ADD ilemtest.crt /tmp/
-RUN $JAVA_HOME/bin/keytool -importcert -file /tmp/ilemtest.crt -alias ilemtest -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt
 
 ADD target/utils-registry-server.jar /app/
 

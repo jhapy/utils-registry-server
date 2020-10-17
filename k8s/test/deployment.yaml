@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utils-registry-server
+  labels:
+    tier: backend
+  namespace: thothee-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utils-registry-server
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: utils-registry-server
+        tier: backend
+    spec:
+      containers:
+        - name: utils-registry-server
+          image: jhapy/utils-registry-server:v2
+          imagePullPolicy: Always
+          env:
+            - name: APP_OPTS
+              value: "--spring.config.location=classpath:bootstrap.yml,file:///appConf/bootstrap-k8s.yml"
+            - name: JAVA_OPTS
+              value: '-Xms256m -Xmx512m -Djhapy.registry.password=admin -DENCRYPT_KEY=thisIsMyEncryptKey -Djhapy.keycloak.issuer-uri=https:///keycloak-cluster-http.keycloak-cluster.svc.cluster.local/auth/realms/thothee-test'
+            - name: SERVER_NAME
+              value: utils-registry-server
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s,k8s-test
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
+            limits:
+              memory: '512Mi'
+              cpu: '1'
+          ports:
+            - name: http
+              containerPort: 8888
+            - name: management
+              containerPort: 8186
+          readinessProbe:
+            httpGet:
+              path: /management/health/readiness
+              port: management
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /management/health/liveness
+              port: management
+            initialDelaySeconds: 120
+          volumeMounts:
+            - name: bootstrap-k8s
+              mountPath: /appConf
+              readOnly: true
+      volumes:
+        - name: bootstrap-k8s
+          configMap:
+            name: bootstrap-k8s

@@ -44,9 +44,6 @@ import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 @EnableConfigServer
-@EnableEurekaServer
-@EnableEurekaClient
-@EnableDiscoveryClient
 @EnableConfigurationProperties({AppProperties.class, ConfigServerConfig.class})
 public class Application implements InitializingBean {
 
