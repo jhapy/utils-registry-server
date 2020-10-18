@@ -25,9 +25,9 @@ jobs:
           path: |
             ~/.m2/repository
             !~/.m2/repository/org/jhapy/**
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-utils-registry-server
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-utils-registry-server
       - name: Build with Maven
         run: mvn -Dmaven.test.skip -s .settings.xml -Dmaven.javadoc.skip -Dossrh_username=${{secrets.ossrh_username}} -Dossrh_password=${{secrets.ossrh_password}} --file pom.xml deploy
 
