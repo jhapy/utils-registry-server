@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: utils-registry-server
-          image: jhapy/utils-registry-server:v2
+          image: jhapy/utils-registry-server-k8s:v2
           imagePullPolicy: Always
           env:
             - name: APP_OPTS
