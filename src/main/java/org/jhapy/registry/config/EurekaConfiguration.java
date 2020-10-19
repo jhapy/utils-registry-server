@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 26/09/2020
  */
 @Configuration
-@ConditionalOnProperty(value = "spring.cloud.kubernetes.enabled",matchIfMissing = false)
+@ConditionalOnProperty(value = "spring.cloud.kubernetes.enabled", havingValue = "false", matchIfMissing = true)
 @EnableEurekaServer
 @EnableEurekaClient
 @EnableDiscoveryClient
