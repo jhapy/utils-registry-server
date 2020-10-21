@@ -121,11 +121,32 @@ public class Application implements InitializingBean {
       File trustStoreFilePath = new File(
           appProperties.getSecurity().getTrustStore().getTrustStorePath());
       String tsp = trustStoreFilePath.getAbsolutePath();
+      logger.info("Use trustStore " + tsp + ", with password : " + appProperties.getSecurity()
+          .getTrustStore().getTrustStorePassword() + ", type = " + appProperties.getSecurity()
+          .getTrustStore().getDefaultType());
+
       System.setProperty("javax.net.ssl.trustStore", tsp);
       System.setProperty("javax.net.ssl.trustStorePassword",
           appProperties.getSecurity().getTrustStore().getTrustStorePassword());
-      System.setProperty("javax.net.ssl.keyStoreType",
-          appProperties.getSecurity().getTrustStore().getDefaultType());
+      if (StringUtils.isNotBlank(appProperties.getSecurity().getTrustStore().getDefaultType())) {
+        System.setProperty("javax.net.ssl.keyStoreType",
+            appProperties.getSecurity().getTrustStore().getDefaultType());
+      }
+    }
+    if (StringUtils.isNotBlank(appProperties.getSecurity().getKeyStore().getKeyStorePath())) {
+      File keyStoreFilePath = new File(appProperties.getSecurity().getKeyStore().getKeyStorePath());
+      String ksp = keyStoreFilePath.getAbsolutePath();
+      logger.info(
+          "Use keyStore " + ksp + ", with password : " + appProperties.getSecurity().getKeyStore()
+              .getKeyStorePassword());
+
+      System.setProperty("javax.net.ssl.keyStore", ksp);
+      System.setProperty("javax.net.ssl.keyStorePassword",
+          appProperties.getSecurity().getTrustStore().getTrustStorePassword());
+    }
+    if (appProperties.getSecurity().getTrustStore().getDebug() != null
+        || appProperties.getSecurity().getKeyStore().getDebug() != null) {
+      System.setProperty("javax.net.debug", "true");
     }
   }
 }
