@@ -142,7 +142,7 @@ public class Application implements InitializingBean {
 
       System.setProperty("javax.net.ssl.keyStore", ksp);
       System.setProperty("javax.net.ssl.keyStorePassword",
-          appProperties.getSecurity().getTrustStore().getTrustStorePassword());
+          appProperties.getSecurity().getKeyStore().getKeyStorePassword());
     }
     if (appProperties.getSecurity().getTrustStore().getDebug() != null
         || appProperties.getSecurity().getKeyStore().getDebug() != null) {
