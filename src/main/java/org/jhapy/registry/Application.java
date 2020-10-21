@@ -122,11 +122,17 @@ public class Application implements InitializingBean {
           appProperties.getSecurity().getTrustStore().getTrustStorePath());
       String tsp = trustStoreFilePath.getAbsolutePath();
       logger.info("Use trustStore " + tsp + ", with password : " + appProperties.getSecurity()
-          .getTrustStore().getTrustStorePassword());
+          .getTrustStore().getTrustStorePassword() + ", with type : " + appProperties.getSecurity()
+          .getTrustStore()
+          .getTrustStoreType());
 
       System.setProperty("javax.net.ssl.trustStore", tsp);
       System.setProperty("javax.net.ssl.trustStorePassword",
           appProperties.getSecurity().getTrustStore().getTrustStorePassword());
+      if (StringUtils.isNotBlank(appProperties.getSecurity().getTrustStore().getTrustStoreType())) {
+        System.setProperty("javax.net.ssl.trustStoreType",
+            appProperties.getSecurity().getTrustStore().getTrustStoreType());
+      }
     }
     if (StringUtils.isNotBlank(appProperties.getSecurity().getKeyStore().getKeyStorePath())) {
       File keyStoreFilePath = new File(appProperties.getSecurity().getKeyStore().getKeyStorePath());
@@ -134,14 +140,14 @@ public class Application implements InitializingBean {
       logger.info(
           "Use keyStore " + ksp + ", with password : " + appProperties.getSecurity().getKeyStore()
               .getKeyStorePassword() + ", with type : " + appProperties.getSecurity().getKeyStore()
-              .getDefaultType());
+              .getKeyStoreType());
 
       System.setProperty("javax.net.ssl.keyStore", ksp);
       System.setProperty("javax.net.ssl.keyStorePassword",
           appProperties.getSecurity().getKeyStore().getKeyStorePassword());
-      if (StringUtils.isNotBlank(appProperties.getSecurity().getKeyStore().getDefaultType())) {
+      if (StringUtils.isNotBlank(appProperties.getSecurity().getKeyStore().getKeyStoreType())) {
         System.setProperty("javax.net.ssl.keyStoreType",
-            appProperties.getSecurity().getKeyStore().getDefaultType());
+            appProperties.getSecurity().getKeyStore().getKeyStoreType());
       }
     }
     if (appProperties.getSecurity().getTrustStore().getDebug() != null
