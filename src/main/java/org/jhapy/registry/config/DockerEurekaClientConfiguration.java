@@ -52,6 +52,8 @@ public class DockerEurekaClientConfiguration implements
   private final ConfigurableEnvironment env;
 
   public DockerEurekaClientConfiguration(ConfigurableEnvironment env) {
+    String loggerPrefix = getLoggerPrefix("DockerEurekaClientConfiguration");
+    logger().info(loggerPrefix + "Startup");
     this.env = env;
   }
 
