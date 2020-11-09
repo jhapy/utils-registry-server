@@ -63,30 +63,32 @@ public class ActuatorSecurity {
     return manager;
   }
 
-  @Configuration
+  //@Configuration
   @Order(1)
   public static class MonitoringWebSecurityConfigurationAdapter extends
       WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService v3UserDetailsService;
+    /*
+        private final UserDetailsService v3UserDetailsService;
 
-    public MonitoringWebSecurityConfigurationAdapter(
-        @Qualifier("actuatorUserDetailsService") UserDetailsService v3UserDetailsService) {
-      this.v3UserDetailsService = v3UserDetailsService;
-    }
-
+        public MonitoringWebSecurityConfigurationAdapter(
+            @Qualifier("actuatorUserDetailsService") UserDetailsService v3UserDetailsService) {
+          this.v3UserDetailsService = v3UserDetailsService;
+        }
+    */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
       return super.authenticationManagerBean();
     }
 
+    /*
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
       auth
           .userDetailsService(v3UserDetailsService);
     }
-
+*/
     protected void configure(HttpSecurity http) throws Exception {
       http.antMatcher("/actuator/**")
           .authorizeRequests(authorize ->
