@@ -22,6 +22,12 @@ spring:
             issuer-uri: ${jhapy.keycloak.issuer-uri}
   devtools:
     add-properties: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8887/eureka/
+
 management:
   server:
     port: 8186
