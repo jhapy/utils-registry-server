@@ -62,8 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(HttpSecurity http) throws Exception {
     // @formatter:off
-    http
-        .cors()
+    http.cors()
         .and()
         .csrf()
         .disable()
@@ -92,7 +91,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers("/eureka/**").permitAll()
-        .antMatchers("/config/**").permitAll()
+        .antMatchers("/config/**").hasAuthority(AuthoritiesConstants.ADMIN)
         .antMatchers("/registry/**").hasAuthority(AuthoritiesConstants.ADMIN)
         .antMatchers("/api/auth-info").permitAll()
         .antMatchers("/api/**").authenticated()
