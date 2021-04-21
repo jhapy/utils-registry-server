@@ -30,7 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @since 01/06/2020
  */
 @Configuration
-@ConditionalOnProperty(value = "eureka.enabled",matchIfMissing = true)
+@ConditionalOnProperty(value = "eureka.enabled", matchIfMissing = true)
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
 
