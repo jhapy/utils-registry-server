@@ -1,0 +1,24 @@
+spring:
+  application.name: utils-registry-server
+  profiles:
+    include: composite
+  cloud:
+    config:
+      server:
+        bootstrap: true
+        prefix: /config
+      fail-fast: true
+      name: jhapy-registry
+      profile: local
+      label: local
+
+management:
+  endpoint:
+    logfile:
+      external-file: /logs/utils-registry-server.log
+
+logging:
+  file:
+    name: /logs/utils-registry-server.log
+
+info.tags.environment: pre-prod
